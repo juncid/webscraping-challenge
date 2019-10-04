@@ -118,9 +118,9 @@ scraped_data = scrappingBookData(books)
 print("Mostrando las primeras 5 filas del archivo a generar")
 print(scraped_data.head())
 
-print("Generando archivo bookScrapping.csv ...")
+print("Generando archivo bookScrapper.csv ...")
 
-scraped_data.to_csv('bookScrapping.csv', encoding='utf-8', index=False)
+scraped_data.to_csv('bookScrapper.csv', encoding='utf-8', index=False)
 
-print("Archivo bookScrapping.csv generado correctamente.")
+print("Archivo bookScrapper.csv generado correctamente.")
 
