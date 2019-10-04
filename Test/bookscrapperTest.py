@@ -386,8 +386,8 @@ class BookScrapperTest(unittest.TestCase):
         self.assertEqual(price_incl_tax, '51.77')
 
     def test_getTaxBook(self):
-        imp = re.sub("[^0-9.]", "", self.soup_tax.find('td').text)
-        self.assertEqual(imp, '0.00')
+        tax = re.sub("[^0-9.]", "", self.soup_tax.find('td').text)
+        self.assertEqual(tax, '0.00')
 
     def test_getNumberReviewsBook(self):
         number_reviews = re.sub("[^0-9.]", "", self.soup_number_review.find('td').text)
