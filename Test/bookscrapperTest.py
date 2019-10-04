@@ -3,12 +3,10 @@ from bs4 import BeautifulSoup
 import re
 
 
-# Test generado para obtener correctamente los datos al realizar el
-# scrapping a un libro del sitio web http://books.toscrape.com/
 class BookScrapperTest(unittest.TestCase):
 
     def setUp(self):
-        html_libro = """<body id="default" class="default">
+        html_book = """<body id="default" class="default">
 
 
 
@@ -320,7 +318,7 @@ class BookScrapperTest(unittest.TestCase):
 
 </body>
 """
-        self.soup_libro = BeautifulSoup(html_libro, 'html.parser')
+        self.soup_book = BeautifulSoup(html_book, 'html.parser')
         html_upc = """<tr>
             <th>UPC</th><td>a897fe39b1053632</td>
         </tr>"""
@@ -328,7 +326,7 @@ class BookScrapperTest(unittest.TestCase):
         html_product_type = """<tr>
             <th>Product Type</th><td>Books</td>
         </tr>"""
-        self.soup_html_product_type = BeautifulSoup(html_product_type, 'html.parser')
+        self.soup_product_type = BeautifulSoup(html_product_type, 'html.parser')
         html_price_excl_tax = """<tr>
                 <th>Price (excl. tax)</th><td>£51.77</td>
             </tr>"""
@@ -347,50 +345,50 @@ class BookScrapperTest(unittest.TestCase):
             </tr>"""
         self.soup_number_review = BeautifulSoup(html_number_review, 'html.parser')
 
-    def test_obtener_titulo_libro(self):
-        titulo = self.soup_libro.find('div', class_=re.compile('product_main')).h1.text
-        self.assertEqual(titulo, "A Light in the Attic")
+    def test_getTitleBook(self):
+        title = self.soup_book.find('div', class_=re.compile('product_main')).h1.text
+        self.assertEqual(title, "A Light in the Attic")
 
-    def test_obtener_precio_libro(self):
-        precio = self.soup_libro.find('p', class_='price_color').text[1:]
-        self.assertEqual(precio, "51.77")
+    def test_getPriceBook(self):
+        price = self.soup_book.find('p', class_='price_color').text[1:]
+        self.assertEqual(price, "51.77")
 
-    def test_obtener_stock_libro(self):
-        stock = re.sub("[^0-9]", "", self.soup_libro.find('p', class_='instock availability').text)
+    def test_getStockBook(self):
+        stock = re.sub("[^0-9]", "", self.soup_book.find('p', class_='instock availability').text)
         self.assertEqual(stock, "22")
 
-    def test_obtener_categoria_libro(self):
-        categoria = self.soup_libro.find('a', href=re.compile('../category/books/')).get('href').split('/')[3]
-        self.assertEqual(categoria, "poetry_23")
+    def test_getCategoryBook(self):
+        category = self.soup_book.find('a', href=re.compile('../category/books/')).get('href').split('/')[3]
+        self.assertEqual(category, "poetry_23")
 
-    def test_obtener_imagen_cover_libro(self):
-        cover_imagen = self.soup_libro.find('img').get('src')
-        self.assertEqual(cover_imagen, "../../media/cache/fe/72/fe72f0532301ec28892ae79a629a293c.jpg")
+    def test_getCoverBook(self):
+        cover = self.soup_book.find('img').get('src')
+        self.assertEqual(cover, "../../media/cache/fe/72/fe72f0532301ec28892ae79a629a293c.jpg")
 
-    def test_obtener_reviews_libro(self):
-        review = self.soup_libro.find('p', class_="star-rating").get('class')[1]
+    def test_getReviewsBook(self):
+        review = self.soup_book.find('p', class_="star-rating").get('class')[1]
         self.assertEqual(review, 'Three')
 
-    def test_obtener_upc_libro(self):
+    def test_getUpcBook(self):
         upc = self.soup_upc.find('td').text
         self.assertEqual(upc, 'a897fe39b1053632')
 
-    def test_obtener_tipo_producto_libro(self):
-        tipo_producto = self.soup_html_product_type.find('td').text
-        self.assertEqual(tipo_producto, 'Books')
+    def test_getProductTypeBook(self):
+        product_type = self.soup_product_type.find('td').text
+        self.assertEqual(product_type, 'Books')
 
-    def test_obtener_precio_sin_imp_libro(self):
-        precio_sin_imp = re.sub("[^0-9.]", "", self.soup_price_excl_tax.find('td').text)
-        self.assertEqual(precio_sin_imp, '51.77')
+    def test_getPriceExclTaxBook(self):
+        price_excl_tax = re.sub("[^0-9.]", "", self.soup_price_excl_tax.find('td').text)
+        self.assertEqual(price_excl_tax, '51.77')
 
-    def test_obtener_precio_con_imp_libro(self):
-        precio_con_imp = re.sub("[^0-9.]", "", self.soup_price_incl_tax.find('td').text)
-        self.assertEqual(precio_con_imp, '51.77')
+    def test_getPriceInclTaxBook(self):
+        price_incl_tax = re.sub("[^0-9.]", "", self.soup_price_incl_tax.find('td').text)
+        self.assertEqual(price_incl_tax, '51.77')
 
-    def test_obtener_imp_libro(self):
+    def test_getTaxBook(self):
         imp = re.sub("[^0-9.]", "", self.soup_tax.find('td').text)
         self.assertEqual(imp, '0.00')
 
-    def test_obtener_numero_de_reviews(self):
-        numero_de_reviews = re.sub("[^0-9.]", "", self.soup_number_review.find('td').text)
-        self.assertEqual(numero_de_reviews, '0')
+    def test_getNumberReviewsBook(self):
+        number_reviews = re.sub("[^0-9.]", "", self.soup_number_review.find('td').text)
+        self.assertEqual(number_reviews, '0')
